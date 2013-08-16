@@ -106,12 +106,12 @@ from .util import smrt_input, printNicely
 OPTIONS = {
     'action': 'friends',
     'refresh': False,
-    'refresh_rate': 600,
+    'refresh_rate': 60,
     'format': 'default',
     'prompt': '[cyan]twitter[R]> ',
     'config_filename': os.environ.get('HOME', os.environ.get('USERPROFILE', '')) + os.sep + '.twitter',
     'oauth_filename': os.environ.get('HOME', os.environ.get('USERPROFILE', '')) + os.sep + '.twitter_oauth',
-    'length': 20,
+    'length': 5,
     'timestamp': False,
     'datestamp': False,
     'extra_args': [],
@@ -488,7 +488,7 @@ class FriendsAction(StatusAction):
 
 class RepliesAction(StatusAction):
     def getStatuses(self, twitter, options):
-        return reversed(twitter.statuses.mentions_timeline(count=options["length"]))
+        return twitter.statuses.mentions_timeline(count=options["length"])
 
 class FollowAction(AdminAction):
     def getUser(self, twitter, user):
