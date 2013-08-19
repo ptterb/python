@@ -1,5 +1,7 @@
+
 import sys
 import tweepy
+import twitter
 
 consumer_key="zNKX8aerJVc1SkYLINQHg"
 consumer_secret="aywSxm4Un1okiDtZLg2ZjSz0WYt09azXz6i9xoXA"
@@ -13,6 +15,7 @@ api = tweepy.API(auth)
 class CustomStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         print status.text
+        return False
 
     def on_error(self, status_code):
         print >> sys.stderr, 'Encountered error with status code:', status_code
@@ -22,5 +25,6 @@ class CustomStreamListener(tweepy.StreamListener):
         print >> sys.stderr, 'Timeout...'
         return True # Don't kill the stream
 
-sapi = tweepy.streaming.Stream(auth, CustomStreamListener())
-sapi.filter(track=['thankyouduck'])
+twitter_stream = tweepy.streaming.Stream(auth, CustomStreamListener())
+iterator = twitter_stream.filter(track=['thankyouduck'])
+
