@@ -1,4 +1,3 @@
-
 # Using Tweepy to search for string "Thankyouduck" in twitter stream
 
 import sys
@@ -17,7 +16,12 @@ api = tweepy.API(auth)
 class CustomStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         #import pdb; pdb.set_trace()
-        print status.text + " " + str(status.id)
+        print status.text # str(status.id)
+        #Getting tweet_id from twitter_stream to reply
+        tweet_id = open('tweet_id.txt','w')
+        tweet_id.write(str(status.id))
+        tweet_id.close()
+
         return False
 
     def on_error(self, status_code):
