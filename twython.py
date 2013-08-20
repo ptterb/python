@@ -6,26 +6,24 @@ from twython import Twython
 APP_KEY = 'zNKX8aerJVc1SkYLINQHg'
 APP_SECRET='aywSxm4Un1okiDtZLg2ZjSz0WYt09azXz6i9xoXA'
 OAUTH_TOKEN= '1648701380-OpdNZv2hTQEmO1zgSa5tltnabU2waoDrCNAFlb0'
-OAUTH_TOEKN_SECRET='gr3iuLIVRbVIb0JBpIA2tuezfnN1oRiTLtn5pdNipg'
+OAUTH_TOKEN_SECRET='gr3iuLIVRbVIb0JBpIA2tuezfnN1oRiTLtn5pdNipg'
 
-photo= open('/home/pi/ThankYouDuck/camera/image.jpg')
-photo1= open('/home/pi/ThankYouDuck/camera/image1.jpg')
+#photo= open('/home/pi/ThankYouDuck/camera/my_gif.GIF')
+photo= open('/home/pi/ThankYouDuck/camera/ducky.jpg')
 
-twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN,OAUTH_TOEKN_SECRET)
+
+twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
 twitter.verify_credentials()
 
 who_mention = open('/home/pi/ThankYouDuck/who.txt')
 
 user_data = who_mention.readline().split(" ")
 username = user_data[0]
+#tweet_id = user_data[len(user_data)-1]
+#status='@'+ username +'I am inflated :) '+ ''
+status= 'Thank you for feeding me. '+ '@'+ username+' ' + 'let\'s keep sharing $
+tweet_id =open('/home/pi/ThankYouDuck/tweet_id.txt').readline()
 
 twitter.update_status_with_media(media=photo,
-                                 status='Thank You '+'@'+ username +' '+ 'You are awesome! Here $
-
-
-
-
-
-
-
-
+                                 status=status,
+                                 in_reply_to_status_id=tweet_id)
