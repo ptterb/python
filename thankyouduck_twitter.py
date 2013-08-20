@@ -8,8 +8,12 @@ from sys import exit
 #initialize pygame mixer and loading sound file
 pygame.mixer.init(48000, -16, 1, 1024)
 soundA = pygame.mixer.Sound("/home/pi/ThankYouDuck/soundfile/lala.wav")
+soundB = pygame.mixer.Sound("/home/pi/ThankYouDuck/soundfile/quackquack.wav")
+
 soundChannelA = pygame.mixer.Channel(1)
+soundChannelB = pygame.mixer.Channel(2)
 print "Soundboard Ready."
+
 
 
 #command = "twitter replies"  # the shell command
@@ -56,31 +60,30 @@ print "Start compare current and last mention"
 if current == last:
     print "Hmm...it seems like nobody mentions you at this time."
 
+
 elif not current == last:
     print "Somebody mentioned you!! Let's inflate the ducky!"
     if ":)" in current or ":-)" in current or "thank" in current:
 
         #To get username from mention, using 'twitter replies" command here
         command2 = "twitter replies"
-        process2 = subprocess.Popen(command2, stdout=subprocess.PIPE, stderr=None, shell=True)
+        process2 = subprocess.Popen(command2, stdout=subprocess.PIPE, stderr=No$
         output2 = process2.communicate()
-        username = output2[0].split(' ')
+        output_data = output2[0].split(' ')
+        username = output_data[0]
         username_txt = open ('who.txt','w')
-        username_txt.write(username[0])
+        username_txt.write(username)# + " " + tweet_id)
         username_txt.close()
 
-        #Activate camera
-        print "Taking a picture"
-        subprocess.call(["fswebcam","-r","960x720","-d","/dev/video0",
-                         "/home/pi/ThankYouDuck/camera/image.jpg"])
+        #playing sound
         soundChannelA.play(soundA)
+        #Turn the fan on and take a picture
         subprocess.call(["python","on.py"])
         sleep(1)
-
- subprocess.call(["fswebcam","-r","960x720","-d","/dev/video0",
-                         "/home/pi/ThankYouDuck/camera/image1.jpg"])
+        soundChannelB.play(soundB)
         print "Tweet back to user"
-        subprocess.call(["python","/home/pi/ThankYouDuck/twython-3.0.0/twython.py"])
+        subprocess.call(["python","/home/pi/ThankYouDuck/twython-3.0.0/twython.$
+
         exit()
     elif ":(" in current:
         print "I am sad now :("
@@ -91,3 +94,4 @@ elif not current == last:
 current_to_last = open('last_mention.txt','w')
 current_to_last.truncate()
 current_to_last.write(current)
+
