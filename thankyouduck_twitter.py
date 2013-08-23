@@ -7,17 +7,15 @@ from sys import exit
 
 #initialize pygame mixer and loading sound file
 pygame.mixer.init(48000, -16, 1, 1024)
-soundA = pygame.mixer.Sound("/home/pi/ThankYouDuck/soundfile/lala.wav")
-soundB = pygame.mixer.Sound("/home/pi/ThankYouDuck/soundfile/quackquack.wav")
+soundA = pygame.mixer.Sound("/home/pi/thankyouduck/soundfile/lala.wav")
+soundB = pygame.mixer.Sound("/home/pi/thankyouduck/soundfile/quackquack.wav")
 
 soundChannelA = pygame.mixer.Channel(1)
 soundChannelB = pygame.mixer.Channel(2)
 print "Soundboard Ready."
 
-
-
 #command = "twitter replies"  # the shell command
-command = "python twitter_stream.py"
+command = "python tweepy_stream.py"
 process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=None, shell=True)
 
 #Launch the shell command:
@@ -63,31 +61,28 @@ if current == last:
 
 elif not current == last:
     print "Somebody mentioned you!! Let's inflate the ducky!"
-    if ":)" in current or ":-)" in current or "thank" in current:
 
-        #To get username from mention, using 'twitter replies" command here
-        command2 = "twitter replies"
-        process2 = subprocess.Popen(command2, stdout=subprocess.PIPE, stderr=No$
-        output2 = process2.communicate()
-        output_data = output2[0].split(' ')
-        username = output_data[0]
-        username_txt = open ('who.txt','w')
-        username_txt.write(username)# + " " + tweet_id)
-        username_txt.close()
+    #To get username from mention, using 'twitter replies" command here
+    command2 = "twitter replies"
+    process2 = subprocess.Popen(command2, stdout=subprocess.PIPE, stderr=None, shell=True)
+    output2 = process2.communicate()
+    output_data = output2[0].split(' ')
+    username = output_data[0]
+    username_txt = open ('who.txt','w')
+    username_txt.write(username)# + " " + tweet_id)
+    username_txt.close()
 
-        #playing sound
-        soundChannelA.play(soundA)
-        #Turn the fan on and take a picture
-        subprocess.call(["python","on.py"])
-        sleep(1)
-        soundChannelB.play(soundB)
-        print "Tweet back to user"
-        subprocess.call(["python","/home/pi/ThankYouDuck/twython-3.0.0/twython.$
+    #playing sound
+    soundChannelA.play(soundA)
 
-        exit()
-    elif ":(" in current:
-        print "I am sad now :("
-    else:
+    #Turn the fan on and take a picture
+    subprocess.call(["python","on.py"])
+    sleep(1)
+    soundChannelB.play(soundB)
+
+    subprocess.call(["python","/home/pi/thankyouduck/twython-3.0.0/replies_twython.py"])
+    exit()
+else:
         print " No command found"
 
 #store current to mention to last mention
