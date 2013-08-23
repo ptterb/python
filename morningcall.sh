@@ -1,7 +1,4 @@
-#!/bin/bash
-python /home/pi/ThankYouDuck/inflateduck.py
-
-
+python morning_inflation.py
 
 
 
