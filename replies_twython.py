@@ -1,3 +1,6 @@
+######################################################################
+#This file should be placed on the same folder with twython library.##
+######################################################################
 
 import sys
 from twython import Twython
