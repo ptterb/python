@@ -13,8 +13,11 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
 
+count = 0  # global count variable
+
 class CustomStreamListener(tweepy.StreamListener):
     def on_status(self, status):
+        global count
         #import pdb; pdb.set_trace()
         print status.text # str(status.id)
         #Getting tweet_id from twitter_stream to reply
@@ -22,7 +25,10 @@ class CustomStreamListener(tweepy.StreamListener):
         tweet_id.write(str(status.id))
         tweet_id.close()
 
-        return False
+        count += 1  # Add 1 to the found count
+        print "Found %d tweets containing the keyword" % count
+
+        #return False    # This is commented out so the script will continue to run after finding a tweet
 
     def on_error(self, status_code):
         print >> sys.stderr, 'Encountered error with status code:', status_code
